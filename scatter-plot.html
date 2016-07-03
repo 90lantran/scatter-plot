@@ -1,0 +1,102 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="../jquery/dist/jquery.js"></script>
+<script src="../d3/d3.min.js"></script>
+
+<dom-module id="scatter-plot">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .axis path,
+      .axis line{
+        fill: none;
+        stroke: black;
+        shape-rendering: crispEdges;
+      }
+
+      .axis text {
+        font-family: : sans-serif;
+        font-size:  13px;
+      }
+    </style>
+    
+    <div id$="{{plotID}}"> </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: "scatter-plot",
+
+      properties: {
+        dataX: {
+          type: Array,
+          notify: true
+        },
+
+        dataY:{
+          type: Array,
+          notify: true
+        },
+
+        plotID:{
+          type: String,
+          value: function(){
+          return 'ERFabc' + Math.floor((Math.random() * 10000) + 1) ;
+
+          }
+        }
+      },
+
+      observers:[
+        '_dataChanged(dataX.*)'
+      ],
+
+      _dataChanged: function(oldVal, newVal){
+         if(this.data != null && this.data.length > 0 ) {
+            console.log("in _dataChanged, will draw again");
+            this._draw();
+          }
+      },
+
+      _draw: function(){
+        var width = 800;
+        var height = 200;
+        var padding = 20;
+
+        var dataX = this.dataX;
+        var dataY = this.dataY;
+
+        var scaleX = d3.scale.linear().domain([0, d3.max(dataX, function(d){ return d;})]).range([0,width]);
+        var scaleY = d3.scale.linear().domain([0, d3.max(dataY, function(d){ return d;})]).range([0,height]);
+
+        var svg = d3.select('#' + this.plotID).append("svg")
+                      .attr("width", width)
+                      .attr("height", height);
+
+        var xAxis = d3.svg.axis();
+        xAxis.scale(scaleX).orient("bottom").ticks(10);
+
+        var yAxis = d3.svg.axis();
+        yAxis.scale(scaleY).orient("left").ticks(10);              
+
+
+        svg.append("g")
+            .attr("classs", "axis")
+            .attr("transform", "translate(0," + (height - padding) + ")")
+            .call(xAxis);
+        svg.append("g")
+            .attr("classs", "axis")
+            .attr("transform", "translate(" + padding + ",0)")
+            .call(yAxis);
+
+
+      }
+
+
+
+    });
+  </script>
+</dom-module>
