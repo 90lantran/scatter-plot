@@ -50,32 +50,73 @@
         }
       },
 
+      ready: function() {
+        if(this.dataX != null && this.dataX.length > 0 && this.dataY != null && this.dataY.length > 0 ) {
+          this._draw();
+        }
+        else {
+          console.log("no data");
+        }
+      },
+
       observers:[
-        '_dataChanged(dataX.*)'
+        '_dataChanged(dataX, dataY)'
       ],
 
-      _dataChanged: function(oldVal, newVal){
-         if(this.data != null && this.data.length > 0 ) {
-            console.log("in _dataChanged, will draw again");
+      _dataChanged: function(dataX, dataY) {
+        if(this.dataX != null && this.dataX.length > 0 && this.dataY != null && this.dataY.length > 0 ) {
+          this._draw();
+        }
+        else {
+          console.log("still no data");
+        }
+      },
+
+      _dataXChanged: function(oldVal, newVal){
+         if(this.dataX != null && this.dataX.length > 0 ) {
+            console.log("in _dataXChanged, will draw again");
+            this._draw();
+          }
+      },
+
+        _dataYChanged: function(oldVal, newVal){
+         if(this.dataY != null && this.dataY.length > 0 ) {
+            console.log("in _dataYChanged, will draw again");
             this._draw();
           }
       },
 
       _draw: function(){
         var width = 800;
-        var height = 200;
-        var padding = 20;
+        var height = 500;
+        var padding = 40;
 
-        var dataX = this.dataX;
-        var dataY = this.dataY;
+        console.log(this.dataX[1]);
+        console.log(this.dataY[2]);
 
-        var scaleX = d3.scale.linear().domain([0, d3.max(dataX, function(d){ return d;})]).range([0,width]);
-        var scaleY = d3.scale.linear().domain([0, d3.max(dataY, function(d){ return d;})]).range([0,height]);
+        var dataX = [];
+        var dataY = [];
+
+        // var dataX = [1,2,3];
+        // var dataY = [1,2,3];
+
+        for(var i = 0; i < this.dataX.length; i++){
+          dataX.push(this.dataX[i].x);
+        }
+
+        for(var j = 0; j < this.dataY.length; j++){
+          dataY.push(this.dataY[j].y);
+        }
+
+        var scaleX = d3.scale.linear().domain([0, d3.max(dataX, function(d){ return d;})]).range([padding,width - padding]);
+        var scaleY = d3.scale.linear().domain([0, d3.max(dataY, function(d){ return d;})]).range([height-padding, padding]);
+
+
 
         var svg = d3.select('#' + this.plotID).append("svg")
                       .attr("width", width)
                       .attr("height", height);
-
+        console.log(svg);
         var xAxis = d3.svg.axis();
         xAxis.scale(scaleX).orient("bottom").ticks(10);
 
@@ -87,10 +128,25 @@
             .attr("classs", "axis")
             .attr("transform", "translate(0," + (height - padding) + ")")
             .call(xAxis);
+
         svg.append("g")
             .attr("classs", "axis")
             .attr("transform", "translate(" + padding + ",0)")
             .call(yAxis);
+
+        var circles = svg.selectAll("circle")
+        .data(dataY)
+        .enter()
+        .append("circle");
+        circles.attr("cx", function(d, i) { 
+                        return scaleX(dataX[i]);
+                })
+                .attr("cy", function(d, i){
+                        return scaleY(dataY[i]);
+                }) 
+                .attr("r", 3.5)
+                .attr("fill", "yellow") .attr("stroke", "orange");
+
 
 
       }

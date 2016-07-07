@@ -1,0 +1,61 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="../jquery/dist/jquery.js"></script>
+<script src="../d3/d3.min.js"></script>
+<link rel="import" href="scatter-plot.html">
+<link rel="import" href="my-data.html">
+
+<dom-module id="wrapper-el">
+
+<template>
+	
+	<style>
+	:host{
+		display: inline-block;
+	}
+	</style>
+
+	<!-- <span>data from - {{dataUrl}}</span><br/>
+	<span>data response length - {{dataResponse.length}}</span></br>
+	<span>data - {{dataResponse}}</span> -->
+<!-- 	<iron-ajax
+		auto
+		url={{dataUrl}}
+		handle-as="json"
+		last-response="{{response}}"
+		on-response="handleResponse"
+	></iron-ajax> -->
+
+	<my-data data-url="{{dataUrlX}}" data-response="{{xData}}"></my-data>
+   <!-- <scatter-plot data-x='[1, 2, 3]' data-y='[1, 2, 3]'></scatter-plot> 
+ -->
+    <my-data data-url="{{dataUrlY}}" data-response="{{yData}}"></my-data>
+
+    <scatter-plot data-x="{{xData}}" data-y="{{yData}}"></scatter-plot> 
+
+</template>
+
+<script>
+
+Polymer({
+	is:'wrapper-el',
+
+	properties:{
+		dataUrlX:{
+			type: String,
+			notify: true
+		},
+		dataUrlY:{
+			type: String,
+			notify: true
+		}
+	},
+
+	ready: function(){
+	
+	}
+	
+});
+
+</script>
+
+</dom-module>

@@ -9,20 +9,13 @@
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
 
-    <link rel="import" href="../scatter-plot.html">
-    <link rel="import" href="../my-data.html">
+    
+    <link rel="import" href="../wrapper.html">
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
   </head>
   <body>
     <h3>Basic scatter-plot Demo</h3>
-    <my-data data-url="http://localhost:8080/data/dataX.json" data-responses="{{fromData}}">
-  </my-data>
-   <scatter-plot data-x="[[fromData]]"></scatter-plot> 
-
-   <!--  <my-data data-url="http://localhost:8080/data/dataY.json" data-response="{{yData}}">
-  </my-data>
-
-    <scatter-plot data-x="[[xData]]" data-y="[[yData]]"></scatter-plot> -->
+    <wrapper-el data-url-x ="http://localhost:8080/data/dataX.json" data-url-y="http://localhost:8080/data/dataY.json"></wrapper-el>
   </body>
 </html>
