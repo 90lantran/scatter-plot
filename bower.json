@@ -3,7 +3,8 @@
   "description": "simple scatter plot with 2 data sources for 2 axis",
   "main": "scatter-plot.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0"
+    "polymer": "Polymer/polymer#^1.4.0",
+    "iron-meta": "PolymerElements/iron-meta#^1.1.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

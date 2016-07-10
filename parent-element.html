@@ -1,0 +1,47 @@
+<!-- <link rel="import" href="first-child.html">
+<link rel="import" href="second-child.html"> -->
+<link rel="import" href="../polymer/polymer.html">
+<script src="../iron-meta/iron-meta.html"></script>
+
+<dom-module id="parent-element">
+  <style>
+    .b { 
+      display: block;
+      border: 1px solid black; 
+    }
+  </style>
+  <template>
+    <div class="b">
+      
+      <iron-meta id="meta"></iron-meta>
+      
+      <div><strong>Parent Element:</strong>
+      meta key `foo` = <span style="color:red">{{metaVal}}</span></div>
+
+      <!-- this does not work -->
+      <iron-meta key="foo" value="{{bar}}"></iron-meta>
+      <div>(binding does not propagate upwards, {{bar}}) = <span style="color:red">{{bar}}</span></span></div>
+      
+      <br><button on-tap="btnTapped">Get iron-meta `foo` value</button><br><br>
+    </div><br>
+    
+    <!-- <first-child class="b"></first-child><br>
+    
+    <second-child class="b"></second-child> -->
+  </template>
+  <script>
+    Polymer({
+      is: "parent-element",
+      properties: {
+        metaVal: String,
+        bar: {
+          type: String,
+          value: "default"
+        }
+      },
+      btnTapped: function () {
+        this.metaVal = this.$.meta.byKey("foo");
+      }
+    });
+  </script>
+</dom-module>
