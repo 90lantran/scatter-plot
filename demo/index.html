@@ -12,40 +12,30 @@
 
     
     <link rel="import" href="../my-data.html">
-    <link rel="import" href="../scatter-plot.html">
+    <link rel="import" href="../measurement-el.html">
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
   </head>
   <body>
 
-    <dom-module id="meta-test">
+    <!-- <dom-module id="meta-test"> -->
     <h3>Basic scatter-plot Demo</h3>
    <!--  <wrapper-el data-url-x ="http://localhost:8080/data/dataX.json" data-url-y="http://localhost:8080/data/dataY.json"></wrapper-el> -->
-    <my-data data-url="http://localhost:8080/data/dataX.json" data-response="{{toX}}"></my-data>
-  <!--  <iron-meta id="one" key="x" value="{{toX}}"></iron-meta>  -->
 
-    <my-data data-url="http://localhost:8080/data/dataY.json" data-response="{{toY}}"></my-data>
-   <!--  <iron-meta id="two" key="y" value="{{toY}}"></iron-meta>  -->
 
-    <scatter-plot data-x="{{toX}}" data-y="{{toY}}"><scatter-plot>
+    <my-data data-url="http://localhost:8080/data/dataX.json" data-response="{{toX}}" datasource-id="ds1"></my-data>
+<!--      <iron-meta id="id1" key="x"></iron-meta>  -->
 
- 
-    <script>
-     Polymer({
+    <my-data data-url="http://localhost:8080/data/dataY.json" data-response="{{toY}}" datasource-id="ds2"></my-data>
+<!--   <iron-meta id="id2" key="y" ></iron-meta>  -->
 
-        is: 'meta-test',
-        properties:{
-          toX: Array,
-          toY: Array,
-        },
-        // ready: function() {
-        //   this.textContent = new Polymer.IronMetaQuery({key: 'info'}).value;
-        // }
+    <!-- <scatter-plot id="plot1" data-x="{{toX}}" data-y="{{toY}}" data="false"><scatter-plot>
 
-     });
+ -->
+  <measurement-el id="plot1" key-x='{"key":"ds1","measurement":"x"}' key-y='{"key":"ds2","measurement":"y"}' chart-type="scatter" ></measurement-el>
 
-    </script> 
-  </dom-module>
-    <meta-test></meta-test>
+   
+ <!--  </dom-module>
+    <meta-test></meta-test> -->
   </body>
 </html>

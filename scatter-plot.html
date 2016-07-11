@@ -1,6 +1,9 @@
 <link rel="import" href="../polymer/polymer.html">
 <script src="../jquery/dist/jquery.js"></script>
-<script src="../d3/d3.min.js"></script>
+<script src="../d3/d3.min.js"></script> 
+<!-- <script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v0.3.js"></script> -->
+
 
 <dom-module id="scatter-plot">
   <template>
@@ -21,7 +24,8 @@
         font-size:  13px;
       }
     </style>
-    
+    <iron-meta id="id11"> </iron-meta>
+    <iron-meta id="id22"> </iron-meta>
     <div id$="{{plotID}}"> </div>
   </template>
 
@@ -47,10 +51,28 @@
           return 'ERFabc' + Math.floor((Math.random() * 10000) + 1) ;
 
           }
+        },
+
+        data: {
+          type: String,
+          notify: true,
+          observer: '_dataSetValue'
         }
       },
 
+      _dataSetValue: function(newVal, oldVal){
+          console.log(this.$.id11.byKey("x"));
+          console.log(this.$.id22.byKey("y"));
+      },
+
       ready: function() {
+
+        //var metaHello = new Polymer.IronMetaQuery({'key':'one'}).value; 
+
+        // var metaHello = this.$.one.byKey("x");
+       
+        // console.log(metaHello);
+
         if(this.dataX != null && this.dataX.length > 0 && this.dataY != null && this.dataY.length > 0 ) {
           this._draw();
         }
@@ -63,7 +85,14 @@
         '_dataChanged(dataX, dataY)'
       ],
 
-      _dataChanged: function(dataX, dataY) {
+      _dataChanged: function(dataX1, dataY1) {
+
+        console.log(dataX1);
+        console.log(dataY1);
+
+        console.log(this.dataX);
+        console.log(this.dataY);
+
         if(this.dataX != null && this.dataX.length > 0 && this.dataY != null && this.dataY.length > 0 ) {
           this._draw();
         }
@@ -91,27 +120,30 @@
         var height = 500;
         var padding = 40;
 
-        console.log(this.dataX[1]);
-        console.log(this.dataY[2]);
+        //   console.log(this.$.id11.byKey("x"));
+        //   console.log(this.$.id22.byKey("y"));
 
-        var dataX = [];
-        var dataY = [];
+        // var dataXTemp = this.$.id11.byKey("x");
+        // var dataYTemp = this.$.id22.byKey("y");
 
-        // var dataX = [1,2,3];
-        // var dataY = [1,2,3];
+        var dataX = this.dataX;
+        var dataY = this.dataY;
 
-        for(var i = 0; i < this.dataX.length; i++){
-          dataX.push(this.dataX[i].x);
-        }
+        console.log(dataX);
+        console.log(dataY);
 
-        for(var j = 0; j < this.dataY.length; j++){
-          dataY.push(this.dataY[j].y);
-        }
+        // for(var i = 0; i < dataXTemp.length; i++){
+        //   dataX.push(dataXTemp[i].x);
+        // }
+
+        // for(var j = 0; j < dataYTemp.length; j++){
+        //   dataY.push(dataYTemp[j].y);
+        // }
 
         var scaleX = d3.scale.linear().domain([0, d3.max(dataX, function(d){ return d;})]).range([padding,width - padding]);
         var scaleY = d3.scale.linear().domain([0, d3.max(dataY, function(d){ return d;})]).range([height-padding, padding]);
 
-
+        console.log(this.plotID);
 
         var svg = d3.select('#' + this.plotID).append("svg")
                       .attr("width", width)
@@ -119,10 +151,11 @@
         console.log(svg);
         var xAxis = d3.svg.axis();
         xAxis.scale(scaleX).orient("bottom").ticks(10);
+        //var xAxis = svg.call(d3.axisBottom(scaleX));
 
         var yAxis = d3.svg.axis();
         yAxis.scale(scaleY).orient("left").ticks(10);              
-
+        //var yAxis = svg.call(d3.axisLeft(scaleY));
 
         svg.append("g")
             .attr("classs", "axis")

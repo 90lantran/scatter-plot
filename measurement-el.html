@@ -1,0 +1,116 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<script src="../jquery/dist/jquery.js"></script>
+<script src="../iron-meta/iron-meta.html"></script>
+ <link rel="import" href="scatter-plot.html">
+
+
+
+<dom-module id="measurement-el">
+
+<template>
+	
+	<style>
+	:host{
+		display: inline-block;
+	}
+	</style>
+
+<iron-meta id="meta"></iron-meta>
+	<scatter-plot id="umd" data-x="{{dataX}}" data-y="{{dataY}}"></scatter-plot>
+</template>
+
+<script>
+
+Polymer({
+	is:'measurement-el',
+	properties:{
+		keyX:{
+			type: Object,
+			notify: true
+		},
+		keyY:{
+			type: Object,
+			notify: true
+		},
+		dataX: {
+			type: Array,
+			notify: true
+		},
+		dataY: {
+			type: Array,
+			notify: true
+		}
+	},
+
+	ready: function(){
+
+
+
+		// console.log(this.keyX.key);
+		// console.log(this.keyY.key);
+
+		// var dataXX = document.createElement('iron-meta').byKey(this.keyX.key);
+		// var dataYY = document.createElement('iron-meta').byKey(this.keyY.key);
+		
+
+  //       for(var i = 0; i < dataXX.length; i++){
+  //         this.dataX.push(dataXX[i].measurement);
+  //       }
+
+  //       for(var j = 0; j < dataYY.length; j++){
+  //         this.dataY.push(dataYY[j].measurement);
+  //       }
+		
+	},
+
+	_dataCreated: function() {
+		console.log(this.keyX);
+		console.log(this.keyY);
+		var dataXX = this.$.meta.byKey(this.keyX.key);
+		var dataYY = this.$.meta.byKey(this.keyY.key);
+
+		console.log(dataXX);
+		console.log(dataYY);
+
+		this.dataX = [];
+		this.dataY = [];
+		
+
+        for(var i = 0; i < dataXX.length; i++){
+          this.dataX.push(dataXX[i][this.keyX.measurement]);
+        }
+
+        for(var j = 0; j < dataYY.length; j++){
+          this.dataY.push(dataYY[j][this.keyY.measurement]);
+        }
+		
+		console.log(this.dataX);
+		console.log(this.dataY);
+
+
+		this.$.umd._draw();
+
+		// var scatter = document.createElement("scatter-plot");
+
+		// scatter.dataX = this.dataX;
+		// scatter.dataY = this.dataY;
+
+		// Polymer.dom(this).appendChild(scatter); 
+		
+	}
+
+	//handleResponse: function(e,detail) {
+		//var self = this;
+		//console.log(self);
+        //self._setDataResponses(detail.xhr.response); 
+        // console.log(e);
+        // this.isBusy = false;
+        // this.fire("handle-response", detail.xhr.response);
+    //}
+	
+});
+
+</script>
+
+</dom-module>

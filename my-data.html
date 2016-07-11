@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <script src="../jquery/dist/jquery.js"></script>
-
+<script src="../iron-meta/iron-meta.html"></script>
 
 <dom-module id="my-data">
 
@@ -28,6 +28,8 @@
 	<span> data length is {{dataResponse.length}}</span></br>
 	<span>data is {{dataResponse}}</span>
 
+	<!-- <iron-meta id="one" key="x" value="[[dataResponse]]"></iron-meta> -->
+	<div> Data from data source is {{dataResponse}}</div>
 </template>
 
 <script>
@@ -39,9 +41,14 @@ Polymer({
 			// value:{{response}},
 			type: Array,
 			notify: true,
-          readOnly: true
+          readOnly: true,
+          observer: '_dataResponseupdate'
 		},
 		dataUrl:{
+			type: String,
+			notify: true
+		},
+		datasourceId: {
 			type: String,
 			notify: true
 		}
@@ -54,6 +61,35 @@ Polymer({
 		 	//self._setDataResponse(json);
 		 	self._setDataResponse(json);
 		 });
+		
+	},
+
+	_dataResponseupdate: function(newVal, oldVal) {
+
+		console.log("response Value Changed");
+		//console.log(this.$.one.byKey("x"));
+		//console.log(Polymer.dom(this).parentNode);
+
+		var newElem = document.createElement('iron-meta');
+		newElem.key = this.datasourceId;
+		newElem.value = this.dataResponse;
+
+		 Polymer.dom(this).parentNode.appendChild(newElem);
+		 Polymer.dom.flush();
+
+
+		 if(this.datasourceId == "ds2") {
+		 	Polymer.dom(this).parentNode.querySelector('#plot1')._dataCreated();
+		 }
+
+		//var part = Polymer.dom(this).parentNode;
+
+		// console.log(part);
+		//var elem = part.querySelector('#id1');
+		// console.log(elem);
+		//elem.value = this.dataResponse;
+
+		//$(Polymer.dom(this).parentNode).find('#plot1').attr('data', this.dataResponse);
 	}
 
 	//handleResponse: function(e,detail) {
