@@ -17,7 +17,7 @@
 	</style>
 
 <iron-meta id="meta"></iron-meta>
-	<scatter-plot id="umd" data-x="{{dataX}}" data-y="{{dataY}}"></scatter-plot>
+	<scatter-plot id="umd" data-x="[[dataX]]" data-y="[[dataY]]"></scatter-plot>
 </template>
 
 <script>
@@ -35,11 +35,13 @@ Polymer({
 		},
 		dataX: {
 			type: Array,
-			notify: true
+			notify: true,
+			reflectToAttribute: true
 		},
 		dataY: {
 			type: Array,
-			notify: true
+			notify: true,
+			reflectToAttribute: true
 		}
 	},
 
@@ -73,23 +75,29 @@ Polymer({
 		console.log(dataXX);
 		console.log(dataYY);
 
-		this.dataX = [];
-		this.dataY = [];
+		//this.dataX = [];
+		//this.dataY = [];
 		
+		var tempx =[], tempy=[];
 
         for(var i = 0; i < dataXX.length; i++){
-          this.dataX.push(dataXX[i][this.keyX.measurement]);
+          tempx.push(dataXX[i][this.keyX.measurement]);
         }
 
         for(var j = 0; j < dataYY.length; j++){
-          this.dataY.push(dataYY[j][this.keyY.measurement]);
+          tempy.push(dataYY[j][this.keyY.measurement]);
         }
+
+
+        this.dataX = tempx;
+        this.dataY = tempy;
 		
+		console.log("In _dataCreated");
 		console.log(this.dataX);
 		console.log(this.dataY);
 
 
-		this.$.umd._draw();
+		//this.$.umd._draw();
 
 		// var scatter = document.createElement("scatter-plot");
 

@@ -70,6 +70,7 @@ Polymer({
 		//console.log(this.$.one.byKey("x"));
 		//console.log(Polymer.dom(this).parentNode);
 
+		// Create <iron-meta> and apppend it to parent(index.html)
 		var newElem = document.createElement('iron-meta');
 		newElem.key = this.datasourceId;
 		newElem.value = this.dataResponse;
@@ -77,7 +78,7 @@ Polymer({
 		 Polymer.dom(this).parentNode.appendChild(newElem);
 		 Polymer.dom.flush();
 
-
+		 // Wait until the second datasource is passed, call function dataCreated in <measurement-el>
 		 if(this.datasourceId == "ds2") {
 		 	Polymer.dom(this).parentNode.querySelector('#plot1')._dataCreated();
 		 }
@@ -91,15 +92,6 @@ Polymer({
 
 		//$(Polymer.dom(this).parentNode).find('#plot1').attr('data', this.dataResponse);
 	}
-
-	//handleResponse: function(e,detail) {
-		//var self = this;
-		//console.log(self);
-        //self._setDataResponses(detail.xhr.response); 
-        // console.log(e);
-        // this.isBusy = false;
-        // this.fire("handle-response", detail.xhr.response);
-    //}
 	
 });
 
